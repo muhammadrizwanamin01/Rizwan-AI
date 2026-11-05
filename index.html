@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RIZWAN AI </title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#0b0d14;color:#f5f5fa;
+ font-family:Arial,sans-serif;
+}
+header{
+ padding:20px 18px;background:#121522;
+ border-bottom:1px solid #292d40;
+ display:flex;justify-content:space-between;
+ align-items:center;
+}
+.logo{font-size:21px;font-weight:800;color:#b79aff}
+.tag{font-size:11px;color:#83e5ae}
+main{max-width:760px;margin:auto;padding:22px 16px}
+h1{font-size:27px;margin:10px 0}
+.sub{color:#9ca3b8;font-size:14px;line-height:1.5}
+.panel{
+ background:#151927;border:1px solid #2a3043;
+ border-radius:15px;padding:17px;margin-top:20px;
+}
+.tabs{display:flex;gap:10px}
+.tab{
+ flex:1;padding:13px 8px;border-radius:10px;
+ border:1px solid #343950;background:#202538;
+ color:white;font-weight:bold;
+}
+.tab.active{background:#6546a8;border-color:#9b79e8}
+label{display:block;margin:17px 0 8px;font-size:13px}
+textarea,select{
+ width:100%;background:#0e1220;color:white;
+ border:1px solid #343950;border-radius:10px;
+ padding:13px;font-size:14px;
+}
+textarea{height:115px;resize:vertical}
+input[type=file]{width:100%;color:#bfc2d2;font-size:12px}
+.preview{
+ width:100%;max-height:300px;object-fit:contain;
+ border-radius:10px;margin-top:12px;
+}
+button{cursor:pointer}
+.generate{
+ width:100%;padding:16px;margin-top:20px;
+ border:0;border-radius:11px;
+ background:linear-gradient(100deg,#8054d6,#bd69e9);
+ color:white;font-size:16px;font-weight:bold;
+}
+.generate:disabled{opacity:.6}
+.note{
+ color:#a6aac0;font-size:12px;line-height:1.6;
+ margin-top:14px;
+}
+.gallery{
+ display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+.item{
+ padding:15px;background:#202538;
+ border-radius:10px;color:#aaaec1;font-size:12px;
+}
+footer{text-align:center;padding:30px;color:#70778e;font-size:12px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">🎬 IWAN AI VIDEO</div>
+ <div class="tag">● PERSONAL STUDIO</div>
+</header>
+
+<main>
+ <h1>Create Your Imagination.</h1>
+ <div class="sub">
+ Buat video AI dari tulisan maupun gambar.
+ Selamat datang di studio pribadi kamu.
+ </div>
+
+ <section class="panel">
+  <div class="tabs">
+   <button class="tab active" id="textTab"
+   onclick="setMode('text')">✍️ Text to Video</button>
+   <button class="tab" id="imageTab"
+   onclick="setMode('image')">🖼️ Image to Video</button>
+  </div>
+
+  <label>Deskripsi video / Prompt</label>
+  <textarea id="prompt"
+  placeholder="Contoh: A cinematic anime warrior walking toward the camera, dramatic lightning, realistic details..."></textarea>
+
+  <div id="uploadBox" class="hidden">
+   <label>Upload gambar referensi</label>
+   <input type="file" id="imageFile" accept="image/*">
+   <img id="preview" class="preview hidden">
+  </div>
+
+  <label>Durasi video</label>
+  <select id="duration">
+   <option value="5">5 detik</option>
+   <option value="10">10 detik</option>
+  </select>
+
+  <label>Rasio video</label>
+  <select id="ratio">
+   <option value="16:9">16:9 Landscape</option>
+   <option value="9:16">9:16 TikTok / Reels</option>
+   <option value="1:1">1:1 Square</option>
+  </select>
+
+  <button class="generate" id="generate"
+  onclick="generateVideo()">
+   ✨ GENERATE VIDEO
+  </button>
+
+  <div class="note" id="status">
+   Mode demo: mesin AI belum dihubungkan.
+   Nantinya proses generate akan menggunakan model AI cloud.
+  </div>
+ </section>
+
+ <section class="panel">
+  <h3>🎞️ My Creations</h3>
+  <div class="gallery" id="gallery">
+   <div class="item">Belum ada video.<br>Hasil generate akan muncul di sini.</div>
+  </div>
+ </section>
+</main>
+
+<footer>
+ IWAN AI VIDEO © 2026<br>
+ Personal AI Video Studio
+</footer>
+
+<script>
+let mode="text";
+
+function setMode(value){
+ mode=value;
+ document.getElementById("textTab").classList.toggle("active",value==="text");
+ document.getElementById("imageTab").classList.toggle("active",value==="image");
+ document.getElementById("uploadBox").classList.toggle("hidden",value!=="image");
+}
+
+document.getElementById("imageFile").addEventListener("change",function(){
+ const file=this.files[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){
+  alert("Pilih file gambar.");
+  this.value="";
+  return;
+ }
+ const url=URL.createObjectURL(file);
+ const preview=document.getElementById("preview");
+ preview.src=url;
+ preview.classList.remove("hidden");
+});
+
+function generateVideo(){
+ const prompt=document.getElementById("prompt").value.trim();
+ const file=document.getElementById("imageFile").files[0];
+
+ if(!prompt){
+  alert("Masukkan prompt terlebih dahulu.");
+  return;
+ }
+ if(mode==="image"&&!file){
+  alert("Upload gambar terlebih dahulu.");
+  return;
+ }
+
+ document.getElementById("status").textContent=
+ "Antarmuka berhasil digunakan. Mesin AI belum terhubung. Tahap berikutnya adalah menghubungkan model video gratis.";
+ alert("Website berhasil menerima prompt! Kita lanjutkan integrasi mesin AI pada tahap berikutnya.");
+}
+</script>
+</body>
+</html>
